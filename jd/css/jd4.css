@@ -502,6 +502,12 @@ li{
 	width:333px;
 	background:#fdeeef;
 }
+.b3 a:nth-child(2){
+	background:#d3cfde;
+}
+.b3 a:nth-child(4){
+	background:#d3cfde;
+}
 .b3 a p{
 	font-size:19px;
 	color:#f87cad;
@@ -1260,6 +1266,9 @@ dd:hover{
 }
 .asda8{
 	background:url(../img/a13.png)no-repeat -48px -302px;
+}
+#aside2{
+	display:none;
 }
 #aside2 ul{
 	position:fixed;
