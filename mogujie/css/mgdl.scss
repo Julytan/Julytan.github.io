@@ -1,0 +1,125 @@
+@function num($n){
+	@return $n/20;
+}
+html,body{
+	height:100%;
+	width:100%;
+	font-size:20px;
+	// box-sizing:border-box;
+	// border:num(3rem) solid #f6f6f6;
+}
+*{
+	padding:0;
+	margin:0;
+}
+a{
+	text-decoration:none;
+}
+.top{
+	height:num(37rem);
+	width:(numm320rem);
+	background:#fafafa;
+	border-bottom:nume(1rem) solid #c9c7c8;
+	margin-bottom:num(20rem);
+	display:flex;
+	flex-direction:row;
+	justify-content:space-between;
+	align-items:center;
+	a{
+		margin-left:num(5rem);
+		font-size:num(11rem);
+		color:#5e5e5e;
+		font-family:"iconfont";
+	}
+	b{
+		margin-left:num(36rem);
+		font-size:num(11rem);
+		color:#5e5e5e;
+	}
+}
+.zh{
+	height:num(56rem);
+	width:num(294rem);
+	margin-top:num(18rem);
+	margin-left:num(13rem);
+	border-bottom:num(1rem) solid #ededed;
+	color:#ededed;
+	display:flex;
+	flex-direction:column;
+	justify-content:space-around;
+	align-items:center;
+	p{
+		font-size:num(12rem);
+		color:#666;
+	}
+	input{
+		border:none;
+		outline:none;
+		font-size:num(19rem);
+		color:#ededed;
+		text-align:center;
+		background:#fff;
+		&::-webkit-input-placeholder{
+			color:#ededed;
+		}
+		&:focus{
+			color:#000;
+		}
+	}
+}
+.dl{
+	margin-top:num(22rem);
+	margin-left:num(13rem);
+	input{
+		height:num(42rem);
+		width:num(294rem);
+		background:#ff1877;
+		color:#fff;
+		font-size:num(13rem);
+		line-height:num(42rem);
+		text-align:center;
+		border:none;
+		outline:none;
+	}
+}
+.da{
+	margin-top:num(17rem);
+	margin-left:num(13rem);
+	width:num(294rem);
+	display:flex;
+	flex-direction:row;
+	justify-content:space-between;
+	a{
+		font-size:num(11rem);
+		color:#999;
+	}
+	.a1{
+		color:#ff5777;
+	}
+}
+.QQ{
+	float:left;
+	height:num(90rem);
+	width:num(90rem);
+	border-radius:50%;
+	background:#0598e2;
+	margin-top:num(84rem);
+	margin-left:num(115rem);
+	position:relative;
+	p{
+		width:100%;
+		text-align:center;
+		line-height:num(36rem);
+		font-size:num(26rem);
+		font-family:"iconfont";
+		padding-top:num(25rem);
+		color:#fff;
+	}
+	span{
+		font-size:num(10rem);
+		color:#fff;
+		position:absolute;
+		left:num(25rem);
+		top:num(58rem);
+	}
+}
