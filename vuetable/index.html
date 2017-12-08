@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vuetablle</title>
+
+  <link rel="stylesheet" type="text/css" href="css/vuetable.css">
+  <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.css">
+  <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+  <style>
+  #from {
+    width: 280px;
+    border: 1px solid #ccc;
+  }
+</style>
+</head>
+
+<body>
+  <div id="list">
+    <!-- 显示 -->
+    <table class="table table-bordered table-hover">
+      <tr>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>性别</th>
+        <th>电话</th>
+        <th>邮箱</th>
+        <th>爱好</th>
+        <th>出生年月</th>
+        <th>操作</th>
+        <th>选择</th>
+      </tr>
+      <tr v-for="(list,index) in tabnum" :key="index">
+        <td>
+          <span v-if="info.curIndex !== index" v-text="list.name"></span>
+          <input v-if="info.curIndex === index" type="text" v-model="tabnum[index].name">
+        </td>
+        <td>
+          <span v-if="info.curIndex !== index" v-text="list.age"></span>
+          <input v-if="info.curIndex === index" type="text" v-model="tabnum[index].age">
+        </td>
+        <td>
+          <span v-if="info.curIndex !== index" v-text="list.sex"></span>
+          <select v-if="info.curIndex === index" v-model="tabnum[index].sex" name="sex">
+            <option value="boy">男</option>
+            <option value="girl">女</option>
+          </select>
+        </td>
+        <td>
+          <span v-if="info.curIndex !== index" v-text="list.phone"></span>
+          <input v-if="info.curIndex === index" type="text" v-model="tabnum[index].phone">
+        </td>
+        <td>
+          <span v-if="info.curIndex !== index" v-text="list.email"></span>
+          <input v-if="info.curIndex === index" type="text" v-model="tabnum[index].email">
+        </td>
+        <td>
+          <span v-if="info.curIndex !== index" v-for="(item,i) in list.hobby" :key="i">{{item}}&nbsp;</span>
+          <div v-if="info.curIndex === index">
+            <lable>
+              <input type="checkbox" name="hobby" value="跑步" v-model="tabnum[index].hobby"> 跑步
+            </lable>
+            <lable>
+              <input type="checkbox" name="hobby" value="打球" v-model="tabnum[index].hobby"> 打球
+            </lable>
+            <lable>
+              <input type="checkbox" name="hobby" value="唱歌" v-model="tabnum[index].hobby"> 唱歌
+            </lable>
+          </div>
+
+        </td>
+        <td>
+          <span v-if="info.curIndex !== index" v-text="list.data"></span>
+          <input v-if="info.curIndex === index" type="text" v-model="tabnum[index].data">
+        </td>
+        <td>
+          <button class="btn btn-danger" @click="del(index)">删除</button>
+          <button class="btn btn-info" v-show="!tabnum[index].flag" @click="edit(index)">编辑</button>
+          <button class="btn btn-success" v-if="tabnum[index].flag" @click="save(index)">保存</button>
+        </td>
+        <td>
+          <input name="checked" type="checkbox" value=""/>
+        </td>
+      </tr>
+    </table>
+    <!-- 显示 -->
+
+
+    <!-- 增加 -->
+    <div class="mask" v-if="bool">
+      <form @submit.prevent="add" id="from">
+        <fieldset>
+          <legend>添加列表</legend>
+          <div class="form-group">
+            <label>用户名
+              <span class="namespan"></span>
+            </label>
+            <input type="text" name="name" class="form-control" autocomplete="off" v-model="formData.name">
+            <span></span>
+          </span>
+        </div>
+        <div class="form-group">
+          <label>年龄
+            <span class="agespan"></span>
+          </label>
+          <input type="text" name="age" class="form-control" autocomplete="off" v-model="formData.age">
+        </div>
+        <div class="form-group">
+          <label>性别</label>
+          <select name="sex" v-model="formData.sex" required="required">
+            <option value="boy">男</option>
+            <option value="girl">女</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>电话
+            <span class="phonespan"></span>
+          </label>
+          <input type="text" name="phone" class="form-control" autocomplete="off" v-model="formData.phone">
+        </div>
+        <div class="form-group" :class="{ 'control': true }">
+          <label>邮箱
+            <span class="emailspan"></span>
+          </label>
+          <input type="text" name="email" class="form-control" autocomplete="off" v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }">
+          <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
+        </div>
+        <div class="form-group">
+          <label>爱好</label>
+          <lable>
+            <input type="checkbox" name="hobby" value="跑步" v-model="formData.hobby"> 跑步
+          </lable>
+          <lable>
+            <input type="checkbox" name="hobby" value="打球" v-model="formData.hobby"> 打球
+          </lable>
+          <lable>
+            <input type="checkbox" name="hobby" value="唱歌" v-model="formData.hobby"> 唱歌
+          </lable>
+        </div>
+        <div class="form-group">
+          <label>出生年月</label>
+          <input type="text" name="date" class="form-control date" autocomplete="off" v-model="formData.date">
+        </div>
+        <div>
+          <input class="btn btn-primary" type="submit" value="添加">
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <!-- 增加 -->
+
+  <!-- 按钮 -->
+  <button class="btn btn-info" @click="show">添加</button>
+  <div id="xzall" class="btn btn-info" @click="xzAll">全选</div>
+  <div id="fxche" class="btn btn-info" @click="fxche">反选</div>
+  <div id="disall" class="btn btn-warning" @click="disall">取消</div>
+  <div id="delcheck" class="btn btn-danger" @click="delcheck">删除</div>
+  <!-- 按钮 -->
+</div>
+
+<script src="./js/vue/vue.min.js"></script>
+<script src="./js/vue/vee-validate.min.js"></script>
+<script src="./js/zh_CN.js"></script>
+
+
+
+<script>
+
+  var info = {
+            //编辑、保存状态
+            curIndex: '',
+            tabnum: [],
+            formData: {
+              hobby: [],
+            },
+            bool:false,
+          };
+
+
+          var config = {
+            errorBagName: 'errors', // change if property conflicts
+            fieldsBagName: 'fields',
+            // locale: 'zh_CN',
+            delay: 0,
+            locale: 'en',
+            dictionary: null,
+            strict: true,
+            classes: false,
+            classNames: {
+                touched: 'touched', // the control has been blurred
+                untouched: 'untouched', // the control hasn't been blurred
+                valid: 'valid', // model is valid
+                invalid: 'invalid', // model is invalid
+                pristine: 'pristine', // control has not been interacted with
+                dirty: 'dirty' // control has been interacted with
+              },
+              events: 'input|blur',
+              inject: true,
+              validity: false,
+              aria: true
+            };
+
+            Vue.use(VeeValidate, config);
+
+
+            var vm = new Vue({
+              el: '#list',
+              data: info,
+              methods: {
+                show:function(){
+                  this.bool = true;
+                },
+                add: function () {
+                  this.tabnum.push(this.formData);
+                  console.log(this.formData)
+                  this.formData = {};
+                  this.formData.hobby = [];
+                },
+                del: function (index) {
+                  this.tabnum.splice(index, 1);
+                },
+                edit: function (index) {
+                  for (var i = 0; i < this.tabnum.length; i++) {
+                    this.tabnum[i].flag = false;
+                  }
+                  this.tabnum[index].flag = !this.tabnum[index].flag;
+                  this.curIndex = index;
+                },
+                save: function (index) {
+                  this.tabnum[index].flag = !this.tabnum[index].flag;
+                  this.curIndex = '';
+                },
+                xzAll() {
+                  var check = $("tbody input")
+                  for(var i = 0; i<check.length; i++){
+                    check[i].checked = true;
+                  }
+                },
+                disall() {
+                  var check = $("tbody input")
+                  for(var i = 0; i<check.length; i++){
+                    check[i].checked = false;
+                  }
+                },
+                fxche() {
+                  var check = $("tbody input")
+                  for(var i = 0; i<check.length; i++){
+                    check[i].checked = !check[i].checked;
+                  }
+                },
+                delcheck() {
+                  var check = document.querySelectorAll("tbody input")
+                  if(confirm("确定要删除吗？")){
+                    for(var i = 0; i<check.length; i++){
+                      if(check[i].checked){
+                        var delall = check[i].parentNode.parentNode;
+                        delall.parentNode.removeChild(delall)
+                      }
+                    }
+                  }
+                },
+                input(index) {
+                  this.tabnum[index].checked = !this.tabnum[index].checked;
+                }
+
+              },
+              created() {
+                var url = 'https://easy-mock.com/mock/59f83947be3b4e024abb8adb/example/info.php';
+                var th = this;
+                $.get(url, function (res) {
+                  for (let i = 0; i < res.tabnum.length; i++) {
+                    th.tabnum.push(res.tabnum[i]);
+                  }
+                })
+              }
+            });
+
+
+          </script>
+        </body>
+
+        </html>

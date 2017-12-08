@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>demo</title>
+	<link rel="stylesheet" type="text/css" href="css/boot/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/boot/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="./js/jq-ui/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" href="./js/jq-ui/jquery-ui.theme.min.css">
+	<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+	<script type="text/javascript" src="js/jq-ui/jquery-ui.min.js"></script>
+	<style type="text/css">
+	#mask{
+		display:none;
+	}
+	#edi_mask{
+		display:none;
+	}
+</style>
+</head>
+<body>
+	<!-- 添加 -->
+	<div id="mask">
+		<form>
+			<div class="form-group">
+				<label>姓名</label>
+				<input autocomplete="off" type="text" name="name" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>性别</label>
+				<select name="sex" class="form-control">
+					<option value="secret">保密</option>
+					<option value="boy">男</option>
+					<option value="gril">女</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>年龄</label>
+				<input autocomplete="off" type="text" name="age" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>手机</label>
+				<input autocomplete="off" type="text" name="phone" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>邮箱</label>
+				<input autocomplete="off" type="text" name="email" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>爱好</label>
+				<input autocomplete="off" type="text" name="hobby" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>出生日期</label>
+				<input autocomplete="off" type="text" name="data" class="form-control">
+			</div>
+		</form>
+	</div>
+	<!-- 编辑 -->
+	<div id="edi_mask">
+		<form>
+			<div class="form-group">
+				<label>姓名</label>
+				<input autocomplete="off" type="text" name="name" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>性别</label>
+				<select name="sex" class="form-control">
+					<option value="secret">保密</option>
+					<option value="boy">男</option>
+					<option value="gril">女</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>年龄</label>
+				<input autocomplete="off" type="text" name="age" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>手机</label>
+				<input autocomplete="off" type="text" name="phone" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>邮箱</label>
+				<input autocomplete="off" type="text" name="email" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>爱好</label>
+				<input autocomplete="off" type="text" name="hobby" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>出生日期</label>
+				<input autocomplete="off" type="text" name="data" class="form-control">
+			</div>
+		</form>
+	</div>
+
+
+
+	<button class="btn btn-default  Ambtn">添加</button>
+	<button class="btn btn-default xzall">全选</button>
+	<button class="btn btn-default disall">取消选择</button>
+	<button class="btn btn-default fxche">反选</button>
+	<button class="btn btn-default delcheck">删除选中</button>
+	<table border="1px"  class="table table-striped TAB">
+		<thead>
+			<tr>
+				<th>姓名</th>
+				<th>年龄</th>
+				<th>性别</th>
+				<th>手机</th>
+				<th>邮箱</th>
+				<th>爱好</th>
+				<th>出生年月</th>
+				<th>操作</th>
+				<th>选中</th>
+			</tr>
+		</thead>
+		<tbody>
+
+		</tbody>
+	</table>
+</body>
+</html>
+<script type="text/javascript">
+
+	var mockurl = 'https://easy-mock.com/mock/59f83947be3b4e024abb8adb/example/info.php'
+	$('.Ambtn').click(function(){
+		$('#mask').dialog({
+			autopen:false,
+			modal: true,//遮罩
+			title:'添加',
+			buttons:[{//给保存按钮添加事件
+				text:'保存',
+				click:function(){
+					var form =$(this).find("form")[0];//获取form表单
+					console.log(form.name.value);
+					var date = {};
+					date.name =form.name.value;//将form表单的内容赋值给date
+					date.age = form.age.value;
+					date.sex = form.sex.value;
+					date.phone = form.phone.value;
+					date.email = form.email.value;
+					date.hobby = form.hobby.value;
+					date.data = form.data.value;
+					// console.log(date);
+					
+					$.get(mockurl,date,function(id){//第三个参数函数中的参数接收的是后台的输出返回值
+						var html = '<tr>';//给html赋值
+						html += '<td>' + date.name + '</td>';
+						html += '<td>' + date.age + ' </td>';
+						html += '<td>'+date.sex+'</td>';
+						html += '<td>'+date.phone+'</td>';	
+						html += '<td>'+date.email+'</td>';
+						html += '<td>'+date.hobby+'</td>';
+						html += '<td>'+date.data+'</td>';	
+						html += '<td><span class="btn btn-danger btn-xs delete-btn" data-id="'+id+'">删除</span>  <span class="btn btn-info btn-xs edi-btn" data-name="'+date.name+'" data-age="'+date.age+'" data-sex="'+date.sex+'" data-phone="'+date.phone+'" data-email="'+date.email+'"  data-hobby="'+date.hobby+'" data-data="'+date.data+'" data-id="'+id+'">编辑</span></td>';
+						html += '<td><input name="checked" type="checkbox" value=""/></td>';
+						html += '</tr>';
+						$('.TAB tbody').append(html);//将HTML插入表单
+						console.log($('.TAB tbody'));		
+						form.reset();//重置表单（默认值）
+					});
+          			$(this).dialog('close');//关闭	
+          		}
+          	}]
+          })
+	})
+
+
+
+
+	$.get(mockurl,function(data){//获取表格数据
+		var html = '';
+		var data = data.tabnum;
+		$(data).map(function(k,v){
+			html += '<tr>';
+			html += '<td>'+v.name+'</td>';
+			html += '<td>'+v.age+'</td>';
+			html += '<td>'+v.sex+'</td>';
+			html += '<td>'+v.phone+'</td>';
+			html += '<td>'+v.email+'</td>';
+			html += '<td>'+v.hobby+'</td>';
+			html += '<td>'+v.data+'</td>';
+			html += '<td><span data-id="'+v.id+'" class="btn btn-danger btn-xs delete-btn">删除</span>  <span class="btn btn-info btn-xs edi-btn" data-name="'+v.name+'" data-age="'+v.age+'" data-sex="'+v.sex+'" data-phone="'+v.phone+'" data-email="'+v.email+'" data-id="'+v.id+'" data-hobby="'+v.hobby+'" data-data="'+v.data+'">编辑</span></td>';
+			html += '<td><input name="checked" type="checkbox" value=""/></td>'
+			html += '</tr>'
+		});
+
+
+		$('.TAB').on('click','.delete-btn',function(){//添加on事件可以同步绑定click事件
+			// console.log(this);//这里的this指的是删除按钮
+			var th = $(this);//把this的值固定
+			$('<div>删除后不可恢复！！</div>').dialog({//避免误删添加遮罩
+				autopen:false,
+				modal: true,//遮罩
+				title:'添加',
+				buttons:[{
+					text:'确定',
+					click:function(){
+						console.log(th.data('id'));
+						th.parent().parent().remove();
+						var id1 = th.data('id');
+						$.get(mockurl, { id: id1 });//向后台传数据，第一个参数是端口 第二个是传给后台的值，第三个是回传值
+						$(this).dialog('close');
+					}
+
+				}]
+			});
+		});
+		$('.TAB').on('click','.edi-btn',function(){
+			var th = $(this);
+			$('#edi_mask').dialog({
+				autopen:false,
+					modal: true,//遮罩
+					title:'编辑',
+					open:function(){
+						// var tp = th.parent().siblings();
+						// console.log(tp[1]);
+						var form = $(this).find('form')[0];
+						console.log(form)
+						form.name.value = th.data('name');
+						form.age.value = th.data('age');
+						form.sex.value = th.data('sex');
+						form.phone.value = th.data('phone');
+						form.email.value = th.data('email');
+						form.hobby.value = th.data('hobby');
+						form.data.value = th.data('data');//把data方法获取到的表格内容传给form表单中
+						console.log(th.data());
+					},
+					buttons:[{
+						text:'保存',
+						click:function(){
+							var form = $(this).find('form')[0];
+							var Tr = th.parent().parent();
+							//也可以用children选择器
+							Tr.find('td').eq(0).text(form.name.value);
+							Tr.find('td').eq(1).text(form.age.value);
+							Tr.find('td').eq(2).text(form.sex.value);
+							Tr.find('td').eq(3).text(form.phone.value);
+							Tr.find('td').eq(4).text(form.email.value);
+							Tr.find('td').eq(5).text(form.hobby.value);
+							Tr.find('td').eq(6).text(form.data.value);
+
+							th.data('name',form.name.value);
+							th.data('age',form.age.value);
+							th.data('sex',form.sex.value);
+							th.data('phone',form.phone.value);
+							th.data('email',form.email.value);
+							th.data('hobby',form.hobby.value);
+							th.data('data',form.data.value);//编辑之后表格中的数据改变，所以要重新给data赋值
+							$.post(mockurl,th.data());
+							$(this).dialog('close');
+						}
+					}]
+				})
+		})
+		$('tbody').html(html);
+
+		// 全选
+		$('.xzall').click(function(){
+			var check = $("tbody input")
+			for(var i = 0; i<check.length; i++){
+				check[i].checked = true;
+			}
+		})
+
+		// 取消全选
+		$('.disall').click(function(){
+			var check = $("tbody input")
+			for(var i = 0; i<check.length; i++){
+				check[i].checked = false;
+			}
+		})
+
+		// 反选
+		$('.fxche').click(function(){
+			var check = $("tbody input")
+			for(var i = 0; i<check.length; i++){
+				check[i].checked = !check[i].checked;
+			}
+		})
+
+		$('.delcheck').click(function(){
+			var check = document.querySelectorAll("tbody input")
+			if(confirm("确定要删除吗？")){
+				for(var i = 0; i<check.length; i++){
+					if(check[i].checked){
+						var delall = check[i].parentNode.parentNode;
+						delall.parentNode.removeChild(delall)
+					}
+				}
+			}
+		})
+	},'json');
+	
+</script>

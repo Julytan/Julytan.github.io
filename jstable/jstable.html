@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="css/jstable.css">
+	<title>原生js表格</title>
+</head>
+<body>
+	<!-- 添加 -->
+	<div id="mask" class="mask">
+		<form>
+			<div class="masktit">
+				<span>添加</span>
+				<button type="button" class="btn btn-default" onclick="dis()">X</button>
+			</div>
+			<div class="form-group">
+				<label>姓名</label>
+				<input autocomplete="off" type="text" name="name" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>性别</label>
+				<select name="sex" class="form-control">
+					<option value="secret">保密</option>
+					<option value="男">男</option>
+					<option value="女">女</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>年龄</label>
+				<input autocomplete="off" type="text" name="age" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>手机</label>
+				<input autocomplete="off" type="text" name="phone" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>邮箱</label>
+				<input autocomplete="off" type="text" name="email" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>爱好</label>
+				<input autocomplete="off" type="text" name="hobby" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>出生日期</label>
+				<input autocomplete="off" type="text" name="datal" class="form-control">
+			</div>
+			<button type="button" class="btn btn-info btnbc" onclick="btnbc()">保存</button>
+		</form>
+	</div>
+
+	<!-- 编辑 -->
+	<div id="mask2" class="mask2">
+		<form>
+			<div class="masktit">
+				<span>编辑</span>
+				<button type="button" class="btn btn-default" onclick="dis()">X</button>
+			</div>
+			<div class="form-group">
+				<label>姓名</label>
+				<input autocomplete="off" type="text" name="name" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>性别</label>
+				<select name="sex" class="form-control">
+					<option value="secret">保密</option>
+					<option value="男">男</option>
+					<option value="女">女</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>年龄</label>
+				<input autocomplete="off" type="text" name="age" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>手机</label>
+				<input autocomplete="off" type="text" name="phone" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>邮箱</label>
+				<input autocomplete="off" type="text" name="email" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>爱好</label>
+				<input autocomplete="off" type="text" name="hobby" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>出生日期</label>
+				<input autocomplete="off" type="text" name="datal" class="form-control">
+			</div>
+			<button type="button" class="btn btn-info btnedi">保存</button>
+		</form>
+	</div>
+
+
+	<table border="1px"  class="table table-striped TAB">
+		<thead>
+			<tr>
+				<th>姓名</th>
+				<th>年龄</th>
+				<th>性别</th>
+				<th>手机</th>
+				<th>邮箱</th>
+				<th>爱好</th>
+				<th>出生年月</th>
+				<th>操作</th>
+				<th>选中</th>
+			</tr>
+		</thead>
+		<tbody>
+
+		</tbody>
+	</table>
+	<button class="btn btn-primary  Ambtn" onclick="ope()">添加</button>
+	<button class="btn btn-primary xzall">全选</button>
+	<button class="btn btn-primary disall">取消选择</button>
+	<button class="btn btn-primary fxche">反选</button>
+	<button class="btn btn-primary delcheck">删除选中</button>
+</body>
+</html>
+<script type="text/javascript">
+	var btnadd = document.getElementsByClassName('Ambtn')[0];
+	var mask = document.getElementById('mask');
+	var mask2 = document.getElementById('mask2');
+	var tab = document.getElementsByTagName('tbody')[0];
+	var table = document.getElementsByClassName('TAB')[0]
+
+	// 打开遮罩
+	function ope(){
+		mask.style.display="block";
+	}
+	// // 保存 增加
+	function btnbc(){
+		mask.style.display="none";
+		var form = document.getElementsByTagName('form')[0];
+		var data = {};
+		data.name = form.name.value;
+		data.age = form.age.value;
+		data.sex = form.sex.value;
+		data.phone = form.phone.value;
+		data.email = form.email.value;
+		data.hobby = form.hobby.value;
+		data.data = form.datal.value;
+		console.log(data)
+
+
+		var html = '<td>'+data.name+'</td>';
+		html += '<td>'+data.age+'</td>';
+		html += '<td>'+data.sex+'</td>';
+		html += '<td>'+data.phone+'</td>';
+		html += '<td>'+data.email+'</td>';
+		html += '<td>'+data.hobby+'</td>';
+		html += '<td>'+data.data+'</td>';
+		html += '<td><span  class="btn btn-danger btn-xs delete-btn">删除</span>  <span class="btn btn-info btn-xs edi-btn" data-name="'+data.name+'" data-age="'+data.age+'" data-sex="'+data.sex+'" data-phone="'+data.phone+'" data-email="'+data.email+'" data-id="'+data.id+'" data-id="'+data.hobby+'" data-id="'+data.data+'">编辑</span></td>';//利用jQuery中data方法来获取表格的值
+		html += '<td><input name="checked" type="checkbox" value=""/></td>'
+		var node=document.createElement('tr');
+		node.innerHTML = html
+		tab.appendChild(node)
+		form.reset();
+
+		var btnedi = document.querySelectorAll(".edi-btn")
+		for(var l =0; l<btnedi.length;l++){
+			btnedi[l].addEventListener("click", function(){
+				mask2.style.display="block";
+				var trall = this.parentNode.parentNode.childNodes;
+
+				var form = document.getElementsByTagName('form')[1];
+				form.name.value = trall[0].innerHTML;
+				form.age.value = trall[1].innerHTML;
+				form.sex.value = trall[2].innerHTML;
+				form.phone.value = trall[3].innerHTML;
+				form.email.value = trall[4].innerHTML;
+				form.hobby.value = trall[5].innerHTML;
+				form.datal.value = trall[6].innerHTML;
+
+				var btnedi =  document.getElementsByClassName('btnedi')[0]
+				// var th = this;
+				btnedi.onclick = function(){
+					mask2.style.display="none";
+					trall[0].innerHTML = form.name.value;
+					trall[1].innerHTML = form.age.value ;
+					trall[2].innerHTML = form.sex.valu;
+					trall[3].innerHTML = form.phone.value;
+					trall[4].innerHTML = form.email.value;
+					trall[5].innerHTML = form.hobby.value;	
+					trall[6].innerHTML = form.datal.value;
+				}
+			})
+		}
+		var btndel = document.querySelectorAll(".delete-btn")
+		for(var l =0; l<btndel.length;l++){
+			btndel[l].addEventListener("click", function(){
+				if(confirm("确定要删除吗？")){
+					var rem = this.parentNode.parentNode;
+					rem.parentNode.removeChild(rem);
+				}
+			})
+		}
+	}
+
+// 关闭遮罩
+function dis(){
+	mask.style.display="none";
+	mask2.style.display="none";
+}
+
+
+// ajax请求
+// 获取数据
+var mockurl = 'https://easy-mock.com/mock/59f83947be3b4e024abb8adb/example/info.php'
+var ajax="";
+var html = ""
+function load(url,cfun){
+	ajax = new XMLHttpRequest();
+	ajax.onreadystatechange = cfun;
+	ajax.open('GET',url,true);
+	ajax.send();
+}
+load(mockurl,function(){
+	if(ajax.readyState==4&&ajax.status==200){
+		// 查看数据
+		var user = JSON.parse(ajax.responseText).tabnum;
+		for(var i = 0; i<user.length; i++){
+			html += '<tr>';
+			html += '<td>'+user[i].name+'</td>';
+			html += '<td>'+user[i].age+'</td>';
+			html += '<td>'+user[i].sex+'</td>';
+			html += '<td>'+user[i].phone+'</td>';
+			html += '<td>'+user[i].email+'</td>';
+			html += '<td>'+user[i].hobby+'</td>';
+			html += '<td>'+user[i].data+'</td>';
+			html += '<td><span data-id="'+user[i].id+'" class="btn btn-danger btn-xs delete-btn">删除</span>  <span class="btn btn-info btn-xs edi-btn" data-name="'+user[i].name+'" data-age="'+user[i].age+'" data-sex="'+user[i].sex+'" data-phone="'+user[i].phone+'" data-email="'+user[i].email+'" data-id="'+user[i].id+'" data-id="'+user[i].hobby+'" data-id="'+user[i].data+'">编辑</span></td>';
+			html += '<td><input name="checked" type="checkbox" value=""/></td>'
+			html += '</tr>';
+		}
+		tab.innerHTML=html
+
+		// 删除
+		var btndel = document.querySelectorAll(".delete-btn")
+		for(var l =0; l<btndel.length;l++){
+			btndel[l].addEventListener("click", function(){
+				if(confirm("确定要删除吗？")){
+					var rem = this.parentNode.parentNode;
+					rem.parentNode.removeChild(rem);
+				}
+			})
+		}
+		
+
+		// 编辑
+		var btnedi = document.querySelectorAll(".edi-btn")
+		for(var l =0; l<btnedi.length;l++){
+			btnedi[l].addEventListener("click", function(){
+				mask2.style.display="block";
+				var trall = this.parentNode.parentNode.childNodes;
+
+				var form = document.getElementsByTagName('form')[1];
+				form.name.value = trall[0].innerHTML;
+				form.age.value = trall[1].innerHTML;
+				form.sex.value = trall[2].innerHTML;
+				form.phone.value = trall[3].innerHTML;
+				form.email.value = trall[4].innerHTML;
+				form.hobby.value = trall[5].innerHTML;
+				form.datal.value = trall[6].innerHTML;
+
+				var btnedi =  document.getElementsByClassName('btnedi')[0]
+				// var th = this;
+				btnedi.onclick = function(){
+					mask2.style.display="none";
+					trall[0].innerHTML = form.name.value;
+					trall[1].innerHTML = form.age.value ;
+					trall[2].innerHTML = form.sex.valu;
+					trall[3].innerHTML = form.phone.value;
+					trall[4].innerHTML = form.email.value;
+				 	trall[5].innerHTML = form.hobby.value;	
+				 	trall[6].innerHTML = form.datal.value;
+				}
+			})
+		}
+
+		var ckeckall = document.querySelector('.xzall');
+		// 全选
+		ckeckall.onclick = function(){
+			var check = document.querySelectorAll("tbody input")
+			for(var i = 0; i<check.length; i++){
+				check[i].checked = true;
+			}
+		}
+
+		// 取消全选
+		var discheck = document.querySelector('.disall');
+		discheck.onclick =function(){
+			var check = document.querySelectorAll("tbody input")
+			for(var i = 0; i<check.length; i++){
+				check[i].checked = false;
+			}
+		}
+
+		// 反选
+		var backcheck = document.querySelector('.fxche');
+		backcheck.onclick =function(){
+			var check = document.querySelectorAll("tbody input")
+			for(var i = 0; i<check.length; i++){
+				check[i].checked = !check[i].checked;
+			}
+		}
+
+		// 删除选中
+		var delcheck = document.querySelector('.delcheck');
+		delcheck.onclick =function(){
+			var check = document.querySelectorAll("tbody input")
+			if(confirm("确定要删除吗？")){
+				for(var i = 0; i<check.length; i++){
+					if(check[i].checked){
+						var delall = check[i].parentNode.parentNode;
+						delall.parentNode.removeChild(delall)
+					}
+				}
+			}
+		}
+	}
+})
+
+</script>

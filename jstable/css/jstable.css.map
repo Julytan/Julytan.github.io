@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,UAAS;EACR,MAAM,EAAC,IAAI;EACX,KAAK,EAAC,IAAI;;AAEX,KAAK;EACJ,OAAO,EAAC,IAAI",
+"sources": ["jstable.scss"],
+"names": [],
+"file": "jstable.css"
+}
